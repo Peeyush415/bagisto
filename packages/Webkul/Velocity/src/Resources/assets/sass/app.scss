@@ -1104,6 +1104,17 @@ i.within-circle {
     box-shadow: none;
 }
 
+.filters-container .toolbar-wrapper > div select {
+    cursor: pointer;
+    padding: 6px 8px;
+    color: rgba(0, 0, 0, 0.83);
+    background-color: #fff;
+}
+
+.filters-container .toolbar-wrapper > div {
+    margin: 0 0 0 0;
+}
+
 @media (max-width: 600px) {
     .selective-div {
         width: 97px;
@@ -1161,7 +1172,6 @@ i.within-circle {
         margin-top: 8px !important;
     }
 }
-
 
 .checkbox,
 .radio {
@@ -1223,51 +1233,6 @@ i.within-circle {
     }
 }
 
-@media only screen and (max-width: 280px) {
-    .filters-container {
-        .toolbar-wrapper {
-            div {
-                #sort-by {
-                    select {
-                        margin-left: -6px !important;
-                        top: -6px !important;
-                        padding: 5px 0px !important;
-                    }
-
-                    .selective-div {
-                        width: 75px !important;
-                    }
-
-                    .select-icon-container {
-                        .select-icon {
-                            left: 53px !important;
-                        }
-                    }
-                }
-
-                #limit-by {
-                    select {
-                        margin-left: -6px !important;
-                        top: -6px !important;
-                        padding: 5px 0px !important;
-                    }
-
-                    .selective-div {
-                        width: 45px !important;
-                    }
-
-                    .select-icon-container {
-                        .select-icon {
-                            left: 43px !important;
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-}
-
 @media only screen and (max-width: 420px) {
     .sale-summary {
         .dash-icon {
@@ -1299,7 +1264,7 @@ i.within-circle {
                         padding: 7px 9px;
                     }
                 }
-                
+
                 .vue-slider-dot-handle {
                     width: 4px;
                     height: 12px;
@@ -1312,4 +1277,3 @@ i.within-circle {
         }
     }
 }
-
