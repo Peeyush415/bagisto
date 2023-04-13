@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-6">
+        <div class="mobile-screen-header-col-1">
             <div v-if="hamburger" class="nav-container scrollable">
                 <div class="wrapper" v-if="this.rootCategories">
                     <div class="greeting drawer-section fw6">
@@ -93,9 +93,7 @@
                                     />
                                 </div>
 
-                                <span v-text="locale.name">{{
-                                    locale.image_url
-                                }}</span>
+                                <span v-text="locale.name">{{ locale.image_url }}</span>
                             </template>
 
                             <i
@@ -150,12 +148,8 @@
                                 <div class="category-logo">
                                     <img
                                         class="category-icon"
-                                        v-if="
-                                            nestedSubCategory.category_icon_url
-                                        "
-                                        :src="
-                                            nestedSubCategory.category_icon_url
-                                        "
+                                        v-if="nestedSubCategory.category_icon_url"
+                                        :src="nestedSubCategory.category_icon_url"
                                         alt=""
                                         width="20"
                                         height="20"
@@ -186,12 +180,8 @@
                                         <div class="category-logo">
                                             <img
                                                 class="category-icon"
-                                                v-if="
-                                                    thirdLevelCategory.category_icon_url
-                                                "
-                                                :src="
-                                                    thirdLevelCategory.category_icon_url
-                                                "
+                                                v-if="thirdLevelCategory.category_icon_url"
+                                                :src="thirdLevelCategory.category_icon_url"
                                                 alt=""
                                                 width="20"
                                                 height="20"
@@ -223,8 +213,9 @@
                         <i
                             class="material-icons float-right text-dark"
                             @click="closeDrawer()"
-                            >cancel</i
                         >
+                            cancel
+                        </i>
                     </div>
 
                     <ul type="none">
@@ -271,8 +262,9 @@
                         <i
                             class="material-icons float-right text-dark"
                             @click="closeDrawer()"
-                            >cancel</i
                         >
+                            cancel
+                        </i>
                     </div>
 
                     <ul type="none">
@@ -298,7 +290,11 @@
             <slot name="logo"></slot>
         </div>
 
-        <div class="right-vc-header col-6">
+        <div class="mobile-screen-header-col-2">
+            <slot name="search-bar"></slot>
+        </div>
+
+        <div class="right-vc-header mobile-screen-header-col-3">
             <slot name="top-header"></slot>
 
             <a class="unset cursor-pointer" @click="openSearchBar">
@@ -314,7 +310,7 @@
             </a>
         </div>
 
-        <div class="right searchbar" v-if="isSearchbar">
+        <div class="right searchbar mobile-screen-header-col-4" v-if="isSearchbar">
             <slot name="search-bar"></slot>
         </div>
     </div>
@@ -322,153 +318,153 @@
 
 <script type="text/javascript">
 export default {
-    props: [
-        'isCustomer',
-        'heading',
-        'headerContent',
-        'categoryCount',
-        'cartItemsCount',
-        'cartRoute',
-        'locale',
-        'allLocales',
-        'currency',
-        'allCurrencies',
-    ],
+props: [
+    'isCustomer',
+    'heading',
+    'headerContent',
+    'categoryCount',
+    'cartItemsCount',
+    'cartRoute',
+    'locale',
+    'allLocales',
+    'currency',
+    'allCurrencies',
+],
 
-    data: function () {
-        return {
-            compareCount: 0,
-            wishlistCount: 0,
-            languages: false,
-            hamburger: false,
-            currencies: false,
-            subCategory: null,
-            isSearchbar: false,
-            rootCategories: true,
-            rootCategoriesCollection: this.$root.sharedRootCategories,
-            updatedCartItemsCount: this.cartItemsCount,
-        };
+data: function () {
+    return {
+        compareCount: 0,
+        wishlistCount: 0,
+        languages: false,
+        hamburger: false,
+        currencies: false,
+        subCategory: null,
+        isSearchbar: false,
+        rootCategories: true,
+        rootCategoriesCollection: this.$root.sharedRootCategories,
+        updatedCartItemsCount: this.cartItemsCount
+    };
+},
+
+watch: {
+    hamburger: function (value) {
+        document.body.classList.remove('open-hamburger');
+
+        if (value) {
+            document.body.classList.add('open-hamburger');
+        }
     },
 
-    watch: {
-        hamburger: function (value) {
-            if (value) {
-                document.body.classList.add('open-hamburger');
-            } else {
-                document.body.classList.remove('open-hamburger');
-            }
-        },
-
-        '$root.headerItemsCount': function () {
-            this.updateHeaderItemsCount();
-        },
-
-        '$root.miniCartKey': function () {
-            this.getMiniCartDetails();
-        },
-
-        '$root.sharedRootCategories': function (categories) {
-            this.formatCategories(categories);
-        },
-    },
-
-    created: function () {
-        this.getMiniCartDetails();
-
+    '$root.headerItemsCount': function () {
         this.updateHeaderItemsCount();
     },
 
-    methods: {
-        openSearchBar: function () {
-            this.isSearchbar = !this.isSearchbar;
+    '$root.miniCartKey': function () {
+        this.getMiniCartDetails();
+    },
 
-            let footer = $('.footer');
-            let homeContent = $('#home-right-bar-container');
+    '$root.sharedRootCategories': function (categories) {
+        this.formatCategories(categories);
+    }
+},
 
-            if (this.isSearchbar) {
-                footer[0].style.opacity = '.3';
-                homeContent[0].style.opacity = '.3';
-            } else {
-                footer[0].style.opacity = '1';
-                homeContent[0].style.opacity = '1';
-            }
-        },
+created: function () {
+    this.getMiniCartDetails();
 
-        toggleHamburger: function () {
-            this.hamburger = !this.hamburger;
-        },
+    this.updateHeaderItemsCount();
+},
 
-        closeDrawer: function () {
-            $('.nav-container').hide();
+methods: {
+    openSearchBar: function () {
+        this.isSearchbar = !this.isSearchbar;
 
-            this.toggleHamburger();
+        let footer = document.getElementByClassName("footer");
+        let homeContent = document.getElementById("home-right-bar-container");
+
+        footer[0].style.opacity = '1';
+        homeContent[0].style.opacity = '1';
+
+        if (this.isSearchbar) {
+            footer[0].style.opacity = '.3';
+            homeContent[0].style.opacity = '.3';
+        }
+    },
+
+    toggleHamburger: function () {
+        this.hamburger = !this.hamburger;
+    },
+
+    closeDrawer: function () {
+        $('.nav-container').hide();
+
+        this.toggleHamburger();
+        this.rootCategories = true;
+    },
+
+    toggleSubcategories: function (index, event) {
+        if (index == 'root') {
             this.rootCategories = true;
-        },
+            this.subCategory = false;
+        } else {
+            event.preventDefault();
 
-        toggleSubcategories: function (index, event) {
-            if (index == 'root') {
-                this.rootCategories = true;
-                this.subCategory = false;
-            } else {
-                event.preventDefault();
+            let categories = this.$root.sharedRootCategories;
+            this.rootCategories = false;
+            this.subCategory = categories[index];
+        }
+    },
 
-                let categories = this.$root.sharedRootCategories;
-                this.rootCategories = false;
-                this.subCategory = categories[index];
+    toggleMetaInfo: function (metaKey) {
+        this.rootCategories = !this.rootCategories;
+
+        this[metaKey] = !this[metaKey];
+    },
+
+    updateHeaderItemsCount: function () {
+        if (this.isCustomer != 'true') {
+            let comparedItems = this.getStorageValue('compared_product');
+
+            if (comparedItems) {
+                this.compareCount = comparedItems.length;
             }
-        },
-
-        toggleMetaInfo: function (metaKey) {
-            this.rootCategories = !this.rootCategories;
-
-            this[metaKey] = !this[metaKey];
-        },
-
-        updateHeaderItemsCount: function () {
-            if (this.isCustomer != 'true') {
-                let comparedItems = this.getStorageValue('compared_product');
-
-                if (comparedItems) {
-                    this.compareCount = comparedItems.length;
-                }
-            } else {
-                this.$http
-                    .get(`${this.$root.baseUrl}/items-count`)
-                    .then((response) => {
-                        this.compareCount = response.data.compareProductsCount;
-                        this.wishlistCount =
-                            response.data.wishlistedProductsCount;
-                    })
-                    .catch((exception) => {
-                        console.log(this.__('error.something_went_wrong'));
-                    });
-            }
-        },
-
-        getMiniCartDetails: function () {
+        } else {
             this.$http
-                .get(`${this.$root.baseUrl}/mini-cart`)
+                .get(`${this.$root.baseUrl}/items-count`)
                 .then((response) => {
-                    if (response.data.status) {
-                        this.updatedCartItemsCount =
-                            response.data.mini_cart.cart_items.length;
-                    }
+                    this.compareCount = response.data.compareProductsCount;
+                    this.wishlistCount =
+                        response.data.wishlistedProductsCount;
                 })
                 .catch((exception) => {
                     console.log(this.__('error.something_went_wrong'));
                 });
-        },
-
-        formatCategories: function (categories) {
-            let slicedCategories = categories;
-            let categoryCount = this.categoryCount ? this.categoryCount : 9;
-
-            if (slicedCategories && slicedCategories.length > categoryCount) {
-                slicedCategories = categories.slice(0, categoryCount);
-            }
-
-            this.rootCategoriesCollection = slicedCategories;
-        },
+        }
     },
+
+    getMiniCartDetails: function () {
+        this.$http
+            .get(`${this.$root.baseUrl}/mini-cart`)
+            .then((response) => {
+                if (response.data.status) {
+                    this.updatedCartItemsCount =
+                        response.data.mini_cart.cart_items.length;
+                }
+            })
+            .catch((exception) => {
+                console.log(this.__('error.something_went_wrong'));
+            });
+    },
+
+    formatCategories: function (categories) {
+        let slicedCategories = categories;
+        let categoryCount = this.categoryCount ? this.categoryCount : 9;
+
+        if (slicedCategories && slicedCategories.length > categoryCount) {
+            slicedCategories = categories.slice(0, categoryCount);
+        }
+
+        this.rootCategoriesCollection = slicedCategories;
+    }
+}
 };
 </script>
