@@ -42,6 +42,7 @@ body {
                     .selectdiv {
                         select {
                             float: unset;
+                            padding-right: 7px;
 
                             ~ .select-icon-container {
                                 top: -40px;
@@ -886,6 +887,14 @@ body {
             .velocity-divide-page {
                 .right {
                     padding: 0 20px !important;
+                }
+            }
+
+            .selectdiv {
+                width: 300px !important;
+
+                > div {
+                    right: -23px !important;
                 }
             }
         }
